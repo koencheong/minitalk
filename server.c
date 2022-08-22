@@ -12,22 +12,25 @@ void receiver(int signo, siginfo_t *info, void *context)
 	static int		bit;
 	static int		client_pid;	
 
+	(void)context;
 	client_pid = info->si_pid;
 	bit++;
 	if (signo == SIGUSR1)
 		c += 1;
 	if (bit == 8)
 	{
+		if (c == 0)
+			write(1, "H", 1);
+		else
+			write(1, &c, 1);
 		bit = 0;
-		write(1, &c, 1);
 		c = 0;
-		kill(client_pid, SIGUSR2);
 	}
 	else
 		c <<= 1;
 }
 
-int main()
+int	main()
 {
 	struct sigaction action;
 
