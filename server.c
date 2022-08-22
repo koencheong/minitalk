@@ -3,35 +3,41 @@
 #include <unistd.h>
 
 // server
+// SIGUSR1 == 1
+// SIGUSR2 == 0
 
-void	receiver(int signo, siginfo_t *info, void *context)
+void receiver(int signo, siginfo_t *info, void *context)
 {
-	char	c;
-	// int		client_pid;
+	static char		c;
+	static int		bit;
+	static int		client_pid;	
 
-	// client_pid = info->si_pid;
+	client_pid = info->si_pid;
+	bit++;
 	if (signo == SIGUSR1)
-		write(1, "1", 1);
-	if (signo == SIGUSR2)
-		write(1, "0", 1);
-	// kill(client_pid, SIGUSR2);
+		c += 1;
+	if (bit == 8)
+	{
+		bit = 0;
+		write(1, &c, 1);
+		c = 0;
+		kill(client_pid, SIGUSR2);
+	}
+	else
+		c <<= 1;
 }
 
-int	main()
+int main()
 {
 	struct sigaction action;
 
-	printf("PID = %d\n", getpid());
+	printf("SERVER PID = %d\n", getpid());
 	action.sa_sigaction = receiver;
-	action.sa_flags = SA_RESTART;
+	action.sa_flags = SA_RESTART | SA_SIGINFO;
 
 	sigaction(SIGUSR1, &action, NULL);
 	sigaction(SIGUSR2, &action, NULL);
 
-	// signal(SIGUSR1, sig_handler1);
-	// signal(SIGUSR2, sig_handler1);
-
-	while (1)
-		pause();
+	while (1);
 	return 0;
 }
