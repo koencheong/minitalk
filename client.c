@@ -2,6 +2,7 @@
 #include <signal.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <string.h>
 
 // client
 
@@ -31,17 +32,17 @@ int	main(int argc, char *argv[])
 	pid = atoi(argv[1]);
 	message = argv[2];
     
-    while (message[byte])
+    while (byte <= (int)(strlen(message)))
     {
         bit = 8;
         while (bit > 0)
         {
-			usleep(30);
-			bit--;
-            if ((message[byte] >> bit) & 1)
+			usleep(100);
+			if ((message[byte] >> --bit) & 1)
 				kill(pid, SIGUSR1);
             else
-                kill(pid, SIGUSR2);
+				kill(pid, SIGUSR2);
+			usleep(100);
         }
 		byte++;
     }

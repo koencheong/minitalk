@@ -19,10 +19,9 @@ void receiver(int signo, siginfo_t *info, void *context)
 		c += 1;
 	if (bit == 8)
 	{
-		if (c == 0)
-			write(1, "H", 1);
-		else
-			write(1, &c, 1);
+		write(1, &c, 1);
+		if (c == '\0')
+			kill(client_pid, SIGUSR2);
 		bit = 0;
 		c = 0;
 	}
