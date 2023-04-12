@@ -6,3 +6,4 @@ libft/*.o
 .DS_Store
 libft/.vscode
 libft/ft_printf/*.o
+libft/ft_printf/libftprintf.a
