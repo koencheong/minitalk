@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   server.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kcheong <kcheong@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/12 18:12:07 by kcheong           #+#    #+#             */
+/*   Updated: 2023/04/12 18:12:07 by kcheong          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <signal.h>
 #include <unistd.h>
 #include "libft/libft.h"
@@ -6,7 +18,7 @@
 // SIGUSR1 == 1
 // SIGUSR2 == 0
 
-void receiver(int signo, siginfo_t *info, void *context)
+void	receiver(int signo, siginfo_t *info, void *context)
 {
 	static char		c;
 	static int		bit;
@@ -32,17 +44,16 @@ void receiver(int signo, siginfo_t *info, void *context)
 		c <<= 1;
 }
 
-int	main()
+int	main(void)
 {
-	struct sigaction action;
+	struct sigaction	action;
 
 	ft_printf("SERVER PID = %d\n", getpid());
 	action.sa_sigaction = receiver;
 	action.sa_flags = SA_RESTART | SA_SIGINFO;
-
 	sigaction(SIGUSR1, &action, NULL);
 	sigaction(SIGUSR2, &action, NULL);
-
-	while (1);
-	return 0;
+	while (1)
+		;
+	return (0);
 }
