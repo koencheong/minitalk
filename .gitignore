@@ -1,8 +1,8 @@
-./README.md
-./client
-./server
-./libft.a
-./libft/*.o
-./.DS_Store
-./libft/.vscode
-./libft/ft_printf/*.o
+README.md
+client
+server
+libft.a
+libft/*.o
+.DS_Store
+libft/.vscode
+libft/ft_printf/*.o
