@@ -1,6 +1,6 @@
-#include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
+#include "libft/libft.h"
 
 // server
 // SIGUSR1 == 1
@@ -21,7 +21,10 @@ void receiver(int signo, siginfo_t *info, void *context)
 	{
 		write(1, &c, 1);
 		if (c == '\0')
+		{
+			write(1, "\n", 1);
 			kill(client_pid, SIGUSR2);
+		}
 		bit = 0;
 		c = 0;
 	}
@@ -33,7 +36,7 @@ int	main()
 {
 	struct sigaction action;
 
-	printf("SERVER PID = %d\n", getpid());
+	ft_printf("SERVER PID = %d\n", getpid());
 	action.sa_sigaction = receiver;
 	action.sa_flags = SA_RESTART | SA_SIGINFO;
 

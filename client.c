@@ -1,8 +1,6 @@
-#include <stdio.h>
 #include <signal.h>
-#include <unistd.h>
 #include <stdlib.h>
-#include <string.h>
+#include "libft/libft.h"
 
 // client
 
@@ -23,27 +21,27 @@ int	main(int argc, char *argv[])
 	signal(SIGUSR2, sig_handler2);
 	if (argc != 3)
 	{
-		printf("ERROR: Invalid arguments passed!\n");
-		printf("Please execute the program as follow: [./client] [pid] [message]\n");
+		ft_printf("ERROR: Invalid arguments passed!\n");
+		ft_printf("Please execute the program as follow: [./client] [pid] [message]\n");
 		exit(EXIT_FAILURE);
 	}
 	
 	byte = 0;
-	pid = atoi(argv[1]);
+	pid = ft_atoi(argv[1]);
 	message = argv[2];
     
-    while (byte <= (int)(strlen(message)))
+    while (byte <= (int)(ft_strlen(message)))
     {
         bit = 8;
         while (bit > 0)
         {
-			usleep(100);
+			usleep(150);
 			if ((message[byte] >> --bit) & 1)
 				kill(pid, SIGUSR1);
             else
 				kill(pid, SIGUSR2);
-			usleep(100);
-        }
+			usleep(150);
+		}
 		byte++;
     }
 }
