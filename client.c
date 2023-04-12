@@ -25,7 +25,7 @@ void	sig_handler2(int sig)
 
 void	bit_transfer(char *message, int pid)
 {
-	int byte;
+	int	byte;
 	int	bit;
 
 	byte = 0;
@@ -60,4 +60,3 @@ int	main(int argc, char *argv[])
 	message = argv[2];
 	bit_transfer(message, pid);
 }
-
