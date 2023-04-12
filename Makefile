@@ -19,6 +19,7 @@ clean:
 	rm -f client.o server.o
 
 fclean: clean
-	make fclean -C libft
+	make fclean -C libft 
+	rm -f server client libft.a
 
 re: fclean all
